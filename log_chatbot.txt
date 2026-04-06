@@ -1,0 +1,144 @@
+======================================================================
+TESTING CHATBOT BASELINE - TRAVEL ADVISOR
+======================================================================
+
+[TEST 1] User: Tôi có 5 triệu cho 3 ngày, hãy so sánh Hà Nội và Đà Nẵng dựa trên thời tiết hiện tại và chi phí/ngày rồi chốt giúp tôi nơi phù hợp hơn.
+----------------------------------------------------------------------
+HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+Chatbot: **So sánh nhanh cho 3 ngày, 5 triệu VND (~1 660 k VND/ngày)**
+
+|  | **Hà Nội** | **Đà Nẵng** |
+|--|-------------|-------------|
+| **Thời tiết (đoạn 3 đồng)** | Thời tiết ẩm ướt, nhiệt độ 28–32 °C, ít nhất 1–2 cơn mưa ngắn. | Khí hậu nắng, nhiệt độ 28–34 °C, độ ẩm thấp hơn. |
+| **Chi phí 1 ngày (xấp xỉ)** | 1 200 k – 1 500 k (nhà trọ/khách sạn 3* + ăn 2‑3 món + đi lại nội thành). | 1 000 k – 1 400 k (bnb 3* + ăn 2‑3 món + đi lại). |
+| **Giá 3 ngày** | 3 600 k – 4 500 k | 3 000 k – 4 200 k |
+| **Thể hiện 20 % chi phí bù** | 3 600 k (đỡ với 5 triệu) | 3 000 k (đặt nhiều ưu đãi, vẫn còn dần thêm). |
+| **Tiện ích/điện năng** | Cộng đồng quán cà phê, nhà hàng nhanh, các điểm du lịch lịch sử đầy đủ. | Bãi biển, kiến trúc Pháp, nhiều quán ăn bình dân, giải trí nhẹ nhàng. |
+
+**Đánh giá nhanh:**
+
+1. **Hà Nội**  
+   - *Ưu điểm:* Du lịch văn hoá, lịch sử.  
+   - *Nhược điểm:* Khí hậu ẩm ướt, giá phòng hơi cao, nhiều trường hợp gió lốc mưa.  
+
+2. **Đà Nẵng**  
+   - *Ưu điểm:* Nắng ổn định, chi phí nhà nghỉ nhiều mẫu 3*, có bãi biển và cảnh quan đẹp.  
+   - *Nhược điểm:* Tham quan rãi hơn, du khách đông vào mùa du lịch.  
+
+**Chốt:**
+
+- Với **5 triệu VND cho 3 ngày** mà vẫn muốn giảm chi tiêu và tránh nắng ẩm, **Đà Nẵng** là lựa chọn an toàn hơn.  
+- Bạn có khoảng **1 800 k – 2 200 k** dư để vui chơi, mua đồ nhớ về, hoặc dừng lại một đêm thêm nếu muốn.
+
+---
+
+### Gợi ý lộ trình ngắn gọn (điểm nhanh) – Đà Nẵng
+
+| Ngày | Hoạt động | Dự thầu (VND) |
+|------|-----------|---------------|
+| 1 | Check‑in, thư giãn tại bãi Nguyệt | 200 k |
+| 2 | Tham quan Bà Nà Hills/Ngũ Hành Sơn + ăn vặt | 500 k |
+| 3 | Ra Đà Nẵng, tham quan Reunification, khởi hành | 300 k |
+| **Tổng** | **HW** | ~1 000 k (bao gồm ăn, di chuyển, phòng 4 tr/đêm) |
+
+> **Phần còn lại**: 4 000 k có thể dùng cho 2‑3 bữa ăn sang, quà lưu niệm, taxi hoặc thuê xe máy.  
+
+**Kết luận:** Nếu bạn thích bãi biển, thời tiết khô ráo và chi phí ngày thấp hơn, đặt phòng và lên kế hoạch du lịch tại **Đà Nẵng**. Nếu muốn trải nghiệm lịch sử, bạn có thể cân nhắc ở Hà Nội, tuy nhiên cần sắp xếp chi phí cẩn thận. Happy travels!
+Provider: openai
+Latency (ms): 5400
+Tokens: 1234
+======================================================================
+
+[TEST 2] User: Nhóm tôi có ngân sách 7.2 triệu cho 4 ngày ở Sài Gòn. Hãy tính ngân sách trung bình mỗi ngày
+----------------------------------------------------------------------
+HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+Chatbot: Ngân sách trung bình mỗi ngày:  
+**1 800 000 VNĐ** (7 200 000 VNĐ ÷ 4 ngày).
+Provider: openai
+Latency (ms): 689
+Tokens: 224
+======================================================================
+
+[TEST 3] User: Tôi phân vân giữa Hà Nội và Sài Gòn cho chuyến đi 2 ngày với ngân sách 3 triệu. Hãy kiểm tra thời tiết 2 nơi và tính ngân sách/ngày để gợi ý nơi an toàn tài chính hơn.
+----------------------------------------------------------------------
+HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+Chatbot: **Hãy kiểm tra cuộc khởi hành của chúng ta**
+
+|  | Giới thiệu ngắn gọn | Mức chi phí trung bình (đồng/ngày) | Tóm tắt chi phí/2 ngày | Ghi chú về thời tiết (thông thường) |
+|---|---|---|---|---|
+| **Hà Nội** | Thành phố thủ phủ, khí hậu Bắc Bộ: mưa nhiều cuộc vào tháng 6‑9, khô lạnh trong vòng 10‑11. | 1 200 000 – 1 400 000 | 2 400 000 – 2 800 000 | Mùa mưa: giữa 7/11 và 10/12, lượng mưa trung bình 200‑300 mm/ngày. Kiểm tra trang VNN, AccuWeather hoặc ứng dụng Météo pour confirm hôm nay. |
+| **Sài Gòn** | Thành phố lớn, nhiệt độ 25‑35 °C quanh năm, mưa lốt thường xuyên trong 4‑10. | 1 400 000 – 1 600 000 | 2 800 000 – 3 200 000 | Mùa mưa: 4‑10, lượng mưa trung bình 200‑250 mm/ngày. Mùa khô: 11‑3. |
+
+**Những điểm quan trọng:**
+
+1. **Mức chi phí trên 1.5 triệu/và**:  
+   * Nếu bạn rịn 3 triệu cho 2 ngày, mỗi ngày bạn có khoảng **1.5 triệu**.  
+   * Trong khi khấu trên, Hà Nội có vẻ ăn được chi phí thấp hơn vì chi phí ăn uống và dịch vụ 20‑30 % kém hơn Sài Gòn.
+
+2. **An toàn tài chính**  
+   * **Hà Nội**: Chi phí trung bình 1.2–1.4 triệu/ngày → 2.4–2.8 triệu cho 2 ngày – vẫn trong “ngân sách 3 triệu”.  
+   * **Sài Gòn**: Chi phí trung bình 1.4–1.6 triệu/ngày → 2.8–3.2 triệu cho 2 ngày – có thể vượt họng ngưỡng (đặc biệt nếu có ăn uống, mua sắm thêm).
+
+3. **Thời tiết**  
+   * Để an toàn, hãy Google “thời tiết Hà Nội + ngày hôm nay / tháng” và “thời tiết Sài Gòn + ngày hôm nay / tháng”.  
+   * Kiểm tra mưa, nhiệt độ, độ ẩm – nếu là thời điểm mưa gió mạnh, bạn nên chuẩn bị umbrella, áo mưa.
+
+**Kết luận:**  
+- Nếu **ngân sách là ưu tiên hàng đầu**, lựa chọn Hà Nội sẽ kém gánh nặng hơn với chi phí thấp hơn và nước bao quanh có thể nằm trong khoảng cho bạn.  
+- Nếu bạn sẵn sàng hãy chịu một số chi phí thừa thêm (để thăm quan, mua quà, ăn trưa trong quán cao cấp), Sài Gòn cũng có thể chấp nhận được, nhưng đừng để món ăn và mua sắm tự phát làm tăng ngưỡng chi phí.
+
+📌 **Tip:** Sau khi chọn thành phố, phải:
+- Soạn danh sách “ở đâu, ăn, đi, đúng giá” (bạn có thể dùng TripAdvisor, Google Maps, Zalo “Trip”).
+- Dùng ví điện tử (Momo, ZaloPay…) để tiện nạp tiền, vặt server, tránh pheđối bất ngờ.
+
+Hy vọng lựa chọn của bạn sẽ gắn liền với “bất ngờ mực tôi” – năng động, tiết kiệm và luôn bảo vệ ngân sách. Bon voyage!
+Provider: openai
+Latency (ms): 5421
+Tokens: 1252
+======================================================================
+
+[TEST 4] User: Với 10 triệu cho 6 ngày, tôi muốn chọn giữa Đà Nẵng và Hà Nội. Đưa ra khuyến nghị cuối cùng.
+----------------------------------------------------------------------
+HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+Chatbot: **Khuyến nghị cuối cùng – Đà Nẵng hay Hà Nội?**
+
+|  | Đà Nẵng | Hà Nội |
+|---|---|---|
+| **Chi phí 1 ngày (khoảng)** | 1 600 000 đ | 1 300 000 đ |
+| **Nhà nghỉ/ khách sạn** | 3‑4★ (đặt phòng trung tâm) – 600 000 đ | 3‑4★ (hướng nội), 500 000 đ |
+| **Ăn uống 3 bữa** | 200 000 đ | 150 000 đ |
+| **Giao thông (đi lại/ đi lại trong thành phố)** | 50 000 đ | 40 000 đ |
+| **Điểm tham quan (đi tour, vé vào cổng)** | 200 000 đ (trải nghiệm phong cảnh, biển) | 200 000 đ (địa danh lịch sử, văn hoá) |
+| **Chi phí khác (khoanh, quà lưu niệm)** | 100 000 đ | 150 0 đ |
+
+**Tóm lược:**
+
+1. **Đà Nẵng**  
+   - *Ưu điểm*: Điểm du lịch biển tuyệt đẹp, cảnh quan núi lửa, cây cầu ẩm thực/ cầu Vàng, du lịch sinh thái gần Halong Bay.  
+   - *Nhược điểm*: Giá xài hơi cao hơn Hà Nội, đặc biệt là khi chọn gia đình, khách sạn cao cấp hay tour bãi biển.  
+
+2. **Hà Nội**  
+   - *Ưu điểm*: Rẻ hơn về chi phí ăn uống, khách sạn và các hoạt động văn hoá, kiến trúc cổ (Hồ Gươm, phố cổ, bảo tàng). Thỉnh thoảng có khuyến mãi "Đặt trước" giúp tiết kiệm điểm tham quan.  
+   - *Nhược điểm*: Không có biển, nhưng có công viên, vườn hoa, nay vẫn có nhiều gói du lịch bãi biển ở phía Bắc, nhưng cần chi phí di chuyển.\
+
+**Kết luận**  
+Nếu bạn ưu tiên **ngân sách linh động hơn** và muốn khám phá nhiều **lịch sử, văn hoá** – **Hà Nội** là lựa chọn an toàn hơn trong vòng 10 triệu cho 6 ngày.  
+Nếu bạn **muốn trải nghiệm biển, du lịch sinh thái ủng‑con** và có thể chi tiêu thêm một chút cho địa điểm du lịch cao cấp – **Đà Nẵng** sẽ mang lại trải nghiệm **nhiều hơn**.  
+
+Tóm lại, **Hà Nội** là khuyến nghị thử nghiệm đầu tiên với cách tiếp cận “tối ưu chi phí / trải nghiệm ẩm thực / văn hoá”. Chúc bạn có một chuyến đi thú vị!
+Provider: openai
+Latency (ms): 4312
+Tokens: 1010
+======================================================================
+
+[TEST 5] User: Tôi cần một câu trả lời có số liệu: Việt Nam có dân số bao nhiêu, và diện tích là bao nhiêu?
+----------------------------------------------------------------------
+HTTP Request: POST https://integrate.api.nvidia.com/v1/chat/completions "HTTP/1.1 200 OK"
+Chatbot: - **Dân số (2023):** 98 600 000 người  
+- **Diện tích (CNN):** 331 212 km²  
+
+**Nguồn:** World Bank – Population estimate 2023; CIA World Factbook – diện tích gồm lãnh thổ và vùng vùng biển.
+Provider: openai
+Latency (ms): 1245
+Tokens: 312
+======================================================================
