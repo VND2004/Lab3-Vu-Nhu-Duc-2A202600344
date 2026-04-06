@@ -1,56 +1,77 @@
-# Lab 3: Chatbot vs ReAct Agent (Industry Edition)
+# Lab 3: Chatbot vs ReAct Agent (Bản Tiêu Chuẩn Công Nghiệp)
 
-Welcome to Phase 3 of the Agentic AI course! This lab focuses on moving from a simple LLM Chatbot to a sophisticated **ReAct Agent** with industry-standard monitoring.
+Chào mừng bạn đến với Giai đoạn 3 của khóa học Agentic AI! Bài thực hành (Lab) này tập trung vào việc chuyển đổi từ một LLM Chatbot đơn giản sang một **ReAct Agent** phức tạp có hệ thống giám sát chuẩn công nghiệp.
 
-## 🚀 Getting Started
+## 🚀 Hướng Dẫn Bắt Đầu
 
-### 1. Setup Environment
-Copy the `.env.example` to `.env` and fill in your API keys:
+### 1. Cấu hình Môi trường (Setup Environment)
+Sao chép `.env.example` thành `.env` và cung cấp bộ API Keys của bạn (hệ thống hiện đang sử dụng Provider qua chuẩn OpenAI cho **NVIDIA API**):
 ```bash
 cp .env.example .env
 ```
+Vào tệp `.env`, điền thông tin:
+```env
+NVIDIA_API_KEY="your_api_key_here"
+NVIDIA_BASE_URL="https://integrate.api.nvidia.com/v1"
+```
 
-### 2. Install Dependencies
+### 2. Cài đặt Thư viện (Install Dependencies)
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Directory Structure
-- `src/tools/`: Extension point for your custom tools.
+### 3. Cấu trúc Thư mục (Directory Structure)
+- `src/agent/`: Mã nguồn cốt lõi về vòng lặp ReAct.
+- `src/tools/`: Các tệp registry chứa định nghĩa công cụ V1 và V2.
+- `src/telemetry/`: Module theo dõi log và metrics.
+- `testcases/`: File chứa tập dữ liệu câu hỏi kiểm thử.
+- `loggings/`: Nơi xuất file nội dung log tự động.
 
-## 🏠 Running with Local Models (CPU)
+## 💻 Cách Chạy Chương Trình (Usage)
 
-If you don't want to use OpenAI or Gemini, you can run open-source models (like Phi-3) directly on your CPU using `llama-cpp-python`.
+Dự án cung cấp 2 chế độ chính: **Chatbot Baseline** và **ReAct Agent** thông qua CLI arguments.
 
-### 1. Download the Model
-Download the **Phi-3-mini-4k-instruct-q4.gguf** (approx 2.2GB) from Hugging Face:
-- [Phi-3-mini-4k-instruct-GGUF](https://huggingface.co/microsoft/Phi-3-mini-4k-instruct-gguf)
-- Direct Download: [phi-3-mini-4k-instruct-q4.gguf](https://huggingface.co/microsoft/Phi-3-mini-4k-instruct-gguf/resolve/main/Phi-3-mini-4k-instruct-q4.gguf)
+### 1. Chạy Chatbot Baseline
+Dùng kịch bản cơ bản nhất (trả lời trực tiếp bằng LLM, không xài Tool).
+```bash
+# Chạy bộ câu hỏi chuẩn trong testcases
+python src/run_chatbot.py
 
-### 2. Place Model in Project
-Create a `models/` folder in the root and move the downloaded `.gguf` file there.
-
-### 3. Update `.env`
-Change your `DEFAULT_PROVIDER` and set the path:
-```env
-DEFAULT_PROVIDER=local
-LOCAL_MODEL_PATH=./models/Phi-3-mini-4k-instruct-q4.gguf
+# Tuỳ chỉnh câu hỏi hoặc lưu ra file log khác
+python src/run_chatbot.py --question "Hà Nội có bao nhiêu dân?" --log-file loggings/chatbot_test.txt
 ```
 
-## 🎯 Lab Objectives
+### 2. Chạy ReAct Agent
+Sử dụng AI có thể tự gọi Tool để phân tích và ra quyết định.
+```bash
+# Chạy Agent với bộ Tools V1, tối đa 8 bước
+python src/run_agent.py --registry 1 --max-steps 8
 
-1.  **Baseline Chatbot**: Observe the limitations of a standard LLM when faced with multi-step reasoning.
-2.  **ReAct Loop**: Implement the `Thought-Action-Observation` cycle in `src/agent/agent.py`.
-3.  **Provider Switching**: Swap between OpenAI and Gemini seamlessly using the `LLMProvider` interface.
-4.  **Failure Analysis**: Use the structured logs in `logs/` to identify why the agent fails (hallucinations, parsing errors).
-5.  **Grading & Bonus**: Follow the [SCORING.md](file:///Users/tindt/personal/ai-thuc-chien/day03-lab-agent/SCORING.md) to maximize your points and explore bonus metrics.
+# Chạy Agent với bộ Tools V2, chạy 1 câu hỏi tùy chọn
+python src/run_agent.py --registry 2 --question "Du lịch Hà Nội với 5 triệu cho 3 ngày thì sao?"
 
-## 🛠️ How to Use This Baseline
-The code is designed as a **Production Prototype**. It includes:
-- **Telemetry**: Every action is logged in JSON format for later analysis.
-- **Robust Provider Pattern**: Easily extendable to any LLM API.
-- **Clean Skeletons**: Focus on the logic that matters—the agent's reasoning process.
+# Chạy Agent với hệ thống System Prompt nâng cấp (chứng minh dự án hỗ trợ nhiều prompt)
+python src/run_agent.py --registry 2 --prompt-path "src/prompts/system_prompt_v2.txt"
+
+# Xem toàn bộ tham số linh hoạt hỗ trợ
+python src/run_agent.py --help
+```
+*(Tham số `--registry 1` hoặc `2` tương ứng với `registry.py` và bộ tool enhanced `registry_2.py`. Tham số `--prompt-path` giúp thay đổi file kỹ thuật Prompt Engineering.)*
+
+## 🎯 Mục Tiêu Bài Lab (Objectives)
+
+1. **Chatbot Cơ bản (Baseline)**: Quan sát những điểm hạn chế của một LLM thông thường khi phải đối mặt với yêu cầu suy luận nhiều bước.
+2. **Vòng lặp ReAct**: Triển khai chu trình `Thought-Action-Observation` (Suy nghĩ-Hành động-Quan sát) bên trong tệp `src/agent/agent.py`.
+3. **Chuyển đổi Provider LLM**: Dễ dàng chuyển đổi giữa OpenAI và Gemini (hoặc NVIDIA API) thông qua việc sử dụng interface `LLMProvider`.
+4. **Phân tích Lỗi (Failure Analysis)**: Phân tích log có cấu trúc trong thư mục `loggings/` để tìm ra gốc rễ việc agent hoạt động sai (ví dụ: ảo giác, lỗi phân tích cú pháp Regex).
+5. **Chấm điểm & Bonus**: Tuân thủ và đọc kỹ file `SCORING.md` để lấy trọn số tiền điểm cùng các điểm thưởng nâng cao khác.
+
+## 🛠️ Đặc Điểm Cốt Lõi Của Source Code Này
+Dự án được thiết kế như một **Bản Mẫu Tiêu chuẩn Sản xuất (Production Prototype)**. Nó bao gồm:
+- **Telemetry**: Mỗi tác vụ đều được ghi nhận (log) bằng các sự kiện event rõ ràng hỗ trợ theo dõi thông số chuẩn xác.
+- **Provider Pattern Mạnh Mẽ**: Dễ dàng tích hợp với bất kỳ API LLM nào (Gemini, ChatGPT, Deepseek, v.v.).
+- **Clean Skeletons**: Tập trung vào tư duy thuật toán cốt lõi — quy trình lập luận của Agent.
 
 ---
 
-*Happy Coding! Let's build agents that actually work.*
+*Happy Coding! Cùng nhau xây dựng hệ thống Agent chất lượng thật sự.*
